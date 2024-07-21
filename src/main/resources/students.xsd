@@ -1,0 +1,30 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://localhost:68080/students"
+           targetNamespace="http://localhost:68080/students"
+           elementFormDefault="qualified">
+
+    <xs:element name="StudentDto" type="tns:StudentDto"/>
+    <xs:element name="ResultMessage" type="tns:ResultMessage"/>
+
+    <xs:complexType name="StudentDto">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="firstName" type="xs:string"/>
+            <xs:element name="lastName" type="xs:string"/>
+            <xs:element name="fatherName" type="xs:string"/>
+            <xs:element name="age" type="xs:int"/>
+            <xs:element name="recordBookNumber" type="xs:string"/>
+            <xs:element name="createdAt" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="updatedAt" type="xs:dateTime" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ResultMessage">
+        <xs:sequence>
+            <xs:element name="success" type="xs:boolean"/>
+            <xs:element name="message" type="tns:StudentDto" minOccurs="0"/>
+            <xs:element name="error" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
