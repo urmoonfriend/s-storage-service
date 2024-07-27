@@ -1,6 +1,5 @@
 package kz.company.s_storage_service.services.database.impl;
 
-import kz.company.s_storage_service.models.dto.StudentDto;
 import kz.company.s_storage_service.models.enitty.Student;
 import kz.company.s_storage_service.repositories.StudentRepository;
 import kz.company.s_storage_service.services.database.StudentDatabase;
@@ -9,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import kz.company.s_storage_service.models.dto.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,16 +28,18 @@ public class StudentDatabaseImpl implements StudentDatabase {
 
     @Override
     public Optional<StudentDto> create(StudentDto dto) {
+        log.info("StudentDatabaseImpl.create request: [{}]", dto);
         Optional<StudentDto> result = Optional.empty();
         try {
             Student student = modelMapper.map(dto, Student.class);
-            result = Optional.of(
-                    modelMapper.map(
-                            studentRepository.saveAndFlush(student),
-                            StudentDto.class));
+            log.info("student mapped from request: [{}]", student);
+            Student savedStudent = studentRepository.saveAndFlush(student);
+            log.info("student saved to database: [{}]", savedStudent);
+            result = Optional.of(modelMapper.map(savedStudent, StudentDto.class));
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+        log.info("StudentDatabaseImpl.create response: [{}]", result);
         return result;
     }
 

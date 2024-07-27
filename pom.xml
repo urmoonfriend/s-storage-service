@@ -42,10 +42,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -63,7 +59,7 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
-			<!--<version>8.5.13</version>-->
+			<version>8.5.13</version>
 			<optional>true</optional>
 		</dependency>
 		<dependency>
@@ -81,20 +77,15 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>wsdl4j</groupId>
-			<artifactId>wsdl4j</artifactId>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-spring-boot-starter-jaxws</artifactId>
+			<version>4.0.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web-services</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.xml.bind</groupId>
-			<artifactId>jakarta.xml.bind-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jaxb</groupId>
-			<artifactId>jaxb-runtime</artifactId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
@@ -113,27 +104,6 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>jaxb2-maven-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<id>xjc</id>
-						<goals>
-							<goal>xjc</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<sources>
-						<source>src/main/resources/countries.xsd</source>
-					</sources>
-					<outputDirectory>src/main/java</outputDirectory>
-					<!--<outputDirectory>src/main/java/kz.company.s_storage_service.models.dto</outputDirectory>-->
-					<clearOutputDir>false</clearOutputDir>
 				</configuration>
 			</plugin>
 		</plugins>

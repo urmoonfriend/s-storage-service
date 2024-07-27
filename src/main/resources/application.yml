@@ -1,8 +1,8 @@
 app:
   db:
-    url: jdbc:postgresql://0.0.0.0:5439/storage_db
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://0.0.0.0:5432/storage_db
+    username: test
+    password: test
 spring:
   application:
     name: s-storage-service
@@ -15,9 +15,8 @@ spring:
     driver-class-name: org.postgresql.Driver
 server:
   port: 8086
-  servlet:
-    context-path: /chat
-
+cxf:
+  path: /Service
 logging:
   level:
     org:

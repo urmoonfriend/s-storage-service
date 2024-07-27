@@ -1,6 +1,5 @@
 package kz.company.s_storage_service.repositories;
 
-import kz.company.s_storage_service.models.dto.StudentDto;
 import kz.company.s_storage_service.models.enitty.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 

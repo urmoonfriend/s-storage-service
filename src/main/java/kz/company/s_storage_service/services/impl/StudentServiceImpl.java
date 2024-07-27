@@ -1,13 +1,12 @@
 package kz.company.s_storage_service.services.impl;
 
-import kz.company.s_storage_service.models.dto.StudentDto;
 import kz.company.s_storage_service.services.StudentService;
 import kz.company.s_storage_service.services.database.StudentDatabase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
+import kz.company.s_storage_service.models.dto.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,13 +19,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentDto> getAllUnits() {
-        //TODO transform
         return studentDatabase.findAll();
     }
 
     @Override
     public Optional<StudentDto> getOneUnit(String recordBookNumber) {
-        //TODO transform
         return studentDatabase.findByRecordBookNumber(recordBookNumber);
     }
 }

@@ -1,9 +1,8 @@
 package kz.company.s_storage_service.services.database;
 
-import kz.company.s_storage_service.models.dto.StudentDto;
-
 import java.util.List;
 import java.util.Optional;
+import kz.company.s_storage_service.models.dto.*;
 
 public interface StudentDatabase {
     Optional<StudentDto> findById(Long id);
