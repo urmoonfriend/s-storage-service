@@ -29,11 +29,27 @@ public class StudentEndpointImpl implements StudentEndpoint {
         ResultMessage resultMessage = ResultMessage.error(ResultCode.SERVER_ERROR.name());
         Optional<StudentDto> studentDtoOptional = studentDatabase.createOrUpdateById(studentDto);
         log.info("StudentEndpointImpl.createStudent: createdStudent: [{}]", studentDtoOptional);
-        if(studentDtoOptional.isPresent()) {
+        if (studentDtoOptional.isPresent()) {
             resultMessage = ResultMessage.success(studentDtoOptional.get());
         }
         log.info("StudentEndpointImpl.createStudent: beforeResponse: [{}]", resultMessage);
         return resultMessage;
     }
 
+    @Override
+    public ResultMessage getAllUnits() {
+        ResultMessage response = ResultMessage.success(studentDatabase.findAll());
+        log.info("StudentEndpointImpl.getAllUnits: response: [{}]", response);
+        return response;
+    }
+
+    @Override
+    public ResultMessage getOneUnit(String recordBookNumber) {
+        log.info("StudentEndpointImpl.getOneUnit request: [{}]", recordBookNumber);
+        ResultMessage response = studentDatabase.findByRecordBookNumber(recordBookNumber)
+                .map(ResultMessage::success)
+                .orElseGet(() -> ResultMessage.error(ResultCode.NOT_FOUND.name()));
+        log.info("StudentEndpointImpl.getOneUnit response: [{}]", response);
+        return response;
+    }
 }
