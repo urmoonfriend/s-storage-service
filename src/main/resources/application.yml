@@ -1,18 +1,34 @@
 app:
-  db:
+  postgres:
     url: jdbc:postgresql://0.0.0.0:5432/storage_db
     username: test
     password: test
+  minio:
+    url: http://localhost:9000
+    username: root
+    password: rootroot
+    bucket: common
+    streaming:
+      default-chunk-size: 3145728
 spring:
   application:
     name: s-storage-service
   main:
     banner-mode: off
   datasource:
-    url: ${app.db.url}
-    username: ${app.db.username}
-    password: ${app.db.password}
+    url: ${app.postgres.url}
+    username: ${app.postgres.username}
+    password: ${app.postgres.password}
     driver-class-name: org.postgresql.Driver
+minio:
+  url: ${app.minio.url}
+  access:
+    name: ${app.minio.username}
+    secret: ${app.minio.password}
+  bucket:
+    name: ${app.minio.bucket}
+  put-object-part-size: 5242880
+
 server:
   port: 8086
 cxf:
@@ -24,4 +40,4 @@ logging:
       hibernate: ERROR
       apache: ERROR
     kz:
-      aldi: DEBUG
+      company: DEBUG

@@ -8,4 +8,10 @@ create table students
     record_book_number varchar(255) unique   not null,
     created_at         timestamp without time zone,
     updated_at         timestamp without time zone
-)
+);
+
+create table files (
+    id  text,
+    size bigint,
+    content_type varchar(255)
+);
