@@ -1,5 +1,6 @@
 package kz.company.s_storage_service.services.database.impl;
 
+import kz.company.s_storage_service.models.dto.StudentDto;
 import kz.company.s_storage_service.models.enitty.Student;
 import kz.company.s_storage_service.repositories.StudentRepository;
 import kz.company.s_storage_service.services.database.StudentDatabase;
@@ -7,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import kz.company.s_storage_service.models.dto.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,60 +21,48 @@ public class StudentDatabaseImpl implements StudentDatabase {
 
     @Override
     public Optional<StudentDto> findById(Long id) {
-        return studentRepository.findById(id).map(
-                student -> modelMapper.map(student, StudentDto.class)
-        );
+        return studentRepository.findById(id).map(student -> modelMapper.map(student, StudentDto.class));
     }
 
     @Override
-    public Optional<StudentDto> create(StudentDto dto) {
-        log.info("StudentDatabaseImpl.create request: [{}]", dto);
+    public Optional<StudentDto> createOrUpdateById(StudentDto dto) {
+        log.info("StudentDatabaseImpl.createOrUpdateById request: [{}]", dto);
         Optional<StudentDto> result = Optional.empty();
         try {
-            Student student = modelMapper.map(dto, Student.class);
-            log.info("student mapped from request: [{}]", student);
-            Student savedStudent = studentRepository.saveAndFlush(student);
-            log.info("student saved to database: [{}]", savedStudent);
-            result = Optional.of(modelMapper.map(savedStudent, StudentDto.class));
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-        log.info("StudentDatabaseImpl.create response: [{}]", result);
-        return result;
-    }
-
-    @Override
-    @Transactional
-    public Optional<StudentDto> update(StudentDto dto) {
-        Optional<StudentDto> result = Optional.empty();
-        try {
-            Optional<StudentDto> studentOptional = findById(dto.getId());
-            if (studentOptional.isPresent()) {
-                Student student = modelMapper.map(dto, Student.class);
-                result = Optional.of(
-                        modelMapper.map(
-                                studentRepository.saveAndFlush(student),
-                                StudentDto.class)
-                );
+            if (dto.getId() != null) {
+                result = studentRepository.findById(dto.getId())
+                        .map(student -> update(student, dto))
+                        .orElseGet(() -> create(dto));
+            } else {
+                result = create(dto);
             }
         } catch (Exception e) {
             log.error(e.getMessage());
         }
+        log.info("StudentDatabaseImpl.createOrUpdateById response: [{}]", result);
         return result;
+    }
+
+    private Optional<StudentDto> create(StudentDto dto) {
+        return Optional.of(modelMapper.map(
+                studentRepository.save(
+                        modelMapper.map(dto, Student.class)), StudentDto.class));
+    }
+
+    private Optional<StudentDto> update(Student student, StudentDto dto) {
+        modelMapper.map(dto, student);
+        studentRepository.saveAndFlush(student);
+        return Optional.of(modelMapper.map(student, StudentDto.class));
     }
 
     @Override
     public List<StudentDto> findAll() {
-        return studentRepository.findAll()
-                .stream()
-                .map(student -> modelMapper.map(student, StudentDto.class))
-                .toList();
+        return studentRepository.findAll().stream().map(student -> modelMapper.map(student, StudentDto.class)).toList();
     }
 
     @Override
     public Optional<StudentDto> findByRecordBookNumber(String recordBookNumber) {
-        return studentRepository.findByRecordBookNumber(recordBookNumber)
-                .map(student -> modelMapper.map(student, StudentDto.class));
+        return studentRepository.findByRecordBookNumber(recordBookNumber).map(student -> modelMapper.map(student, StudentDto.class));
     }
 
 }

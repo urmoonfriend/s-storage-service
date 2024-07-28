@@ -7,9 +7,7 @@ import kz.company.s_storage_service.models.dto.*;
 public interface StudentDatabase {
     Optional<StudentDto> findById(Long id);
 
-    Optional<StudentDto> create(StudentDto dto);
-
-    Optional<StudentDto> update(StudentDto dto);
+    Optional<StudentDto> createOrUpdateById(StudentDto dto);
 
     List<StudentDto> findAll();
 

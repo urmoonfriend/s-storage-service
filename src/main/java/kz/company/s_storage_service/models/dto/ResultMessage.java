@@ -15,7 +15,7 @@ public class ResultMessage {
     @XmlElement(name = "success")
     private boolean success;
     @XmlElement(name = "message")
-    private StudentDto message;
+    private Object message;
     @XmlElement(name = "error")
     private String error;
 

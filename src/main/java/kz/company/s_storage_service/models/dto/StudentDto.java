@@ -4,6 +4,8 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import kz.company.s_storage_service.configs.LocalDateTimeAdapter;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,20 +16,22 @@ import java.time.LocalDateTime;
 @Data
 @Accessors(chain = true)
 public class StudentDto {
-    @XmlElement
+    @XmlElement(name = "id")
     private Long id;
-    @XmlElement
+    @XmlElement(name = "firstName")
     private String firstName;
-    @XmlElement
+    @XmlElement(name = "lastName")
     private String lastName;
-    @XmlElement
+    @XmlElement(name = "fatherName")
     private String fatherName;
-    @XmlElement
+    @XmlElement(name = "age")
     private Integer age;
-    @XmlElement
+    @XmlElement(name = "recordBookNumber")
     private String recordBookNumber;
-    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
+    @XmlElement(name = "createdAt")
     private LocalDateTime createdAt;
-    @XmlElement
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
+    @XmlElement(name = "updatedAt")
     private LocalDateTime updatedAt;
 }

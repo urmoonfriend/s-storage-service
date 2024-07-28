@@ -25,9 +25,9 @@ public class StudentEndpointImpl implements StudentEndpoint {
     private final StudentDatabase studentDatabase;
 
     @Override
-    public ResultMessage createStudent(StudentDto studentDto) {
+    public ResultMessage createOrUpdateStudent(StudentDto studentDto) {
         ResultMessage resultMessage = ResultMessage.error(ResultCode.SERVER_ERROR.name());
-        Optional<StudentDto> studentDtoOptional = studentDatabase.create(studentDto);
+        Optional<StudentDto> studentDtoOptional = studentDatabase.createOrUpdateById(studentDto);
         log.info("StudentEndpointImpl.createStudent: createdStudent: [{}]", studentDtoOptional);
         if(studentDtoOptional.isPresent()) {
             resultMessage = ResultMessage.success(studentDtoOptional.get());
@@ -35,13 +35,5 @@ public class StudentEndpointImpl implements StudentEndpoint {
         log.info("StudentEndpointImpl.createStudent: beforeResponse: [{}]", resultMessage);
         return resultMessage;
     }
-/*
-    @Override
-    public ResultMessage<StudentDto> updateStudent(StudentDto studentDto) {
-        return studentDatabase.update(studentDto)
-                .map(ResultMessage::success)
-                .orElseGet(() -> ResultMessage.error(ResultCode.SERVER_ERROR.name()));
-    }
 
- */
 }

@@ -19,7 +19,7 @@ public class WebServiceConfig {
     @Bean
     public Endpoint helloEndpoint() {
         EndpointImpl endpoint = new EndpointImpl(bus, helloService);
-        endpoint.publish("/ServiceHello");
+        endpoint.publish("/HelloService");
         return endpoint;
     }
 
