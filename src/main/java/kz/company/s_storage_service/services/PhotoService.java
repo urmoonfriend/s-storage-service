@@ -1,5 +1,6 @@
 package kz.company.s_storage_service.services;
 
+import kz.company.s_storage_service.models.enitty.FileMetadataEntity;
 import kz.company.s_storage_service.models.minio.Range;
 import kz.company.s_storage_service.models.minio.ChunkWithMetadata;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +10,7 @@ import java.util.UUID;
 
 public interface PhotoService {
     @Transactional
-    UUID save(MultipartFile multipartFile);
+    FileMetadataEntity save(MultipartFile multipartFile);
 
     ChunkWithMetadata fetchChunk(UUID uuid, Range range);
 }

@@ -24,6 +24,12 @@ public class StudentDto {
     private String lastName;
     @XmlElement(name = "fatherName")
     private String fatherName;
+    @XmlElement(name = "file")
+    private byte[] file;
+    @XmlElement(name = "fileName")
+    private String fileName;
+    @XmlElement(name = "contentType")
+    private String contentType;
     @XmlElement(name = "age")
     private Integer age;
     @XmlElement(name = "recordBookNumber")

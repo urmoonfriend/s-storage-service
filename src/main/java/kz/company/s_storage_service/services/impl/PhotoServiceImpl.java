@@ -26,16 +26,16 @@ public class PhotoServiceImpl implements PhotoService {
 
     @Override
     @Transactional
-    public UUID save(MultipartFile multipartFile) {
+    public FileMetadataEntity save(MultipartFile multipartFile) {
         try {
             UUID fileUuid = UUID.randomUUID();
             FileMetadataEntity metadata = new FileMetadataEntity()
                     .setId(fileUuid.toString())
+                    .setName(multipartFile.getName())
                     .setSize(multipartFile.getSize())
                     .setHttpContentType(multipartFile.getContentType());
-            fileMetadataRepository.save(metadata);
             storageService.save(multipartFile, fileUuid);
-            return fileUuid;
+            return fileMetadataRepository.save(metadata);
         } catch (Exception ex) {
             log.error("PhotoServiceImpl.save error: [{}]", ex.getMessage(), ex);
             throw new StorageException(ex);

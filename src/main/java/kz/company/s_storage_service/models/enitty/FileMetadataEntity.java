@@ -16,6 +16,8 @@ public class FileMetadataEntity {
 
     private long size;
 
+    private String name;
+
     @Column(name = "content_type")
     private String httpContentType;
 }

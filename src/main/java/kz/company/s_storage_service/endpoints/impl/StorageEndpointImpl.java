@@ -34,7 +34,7 @@ public class StorageEndpointImpl implements StorageEndpoint {
     public UUID save(byte[] file, String fileName, String contentType) {
         try {
             MultipartFile multipartFile = new CustomMultipartFile(fileName, file, contentType);
-            return photoService.save(multipartFile);
+            return UUID.fromString(photoService.save(multipartFile).getId());
         } catch (Exception e) {
             log.error("Error saving file", e);
             throw new RuntimeException("Error saving file", e);

@@ -1,9 +1,6 @@
 package kz.company.s_storage_service.models.enitty;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,6 +19,9 @@ public class Student {
     private String lastName;
     private String fatherName;
     private Integer age;
+    @OneToOne
+    @JoinColumn(name = "file_id", referencedColumnName = "id")
+    private FileMetadataEntity fileMetadata;
     private String recordBookNumber;
     @CreationTimestamp
     private LocalDateTime createdAt;

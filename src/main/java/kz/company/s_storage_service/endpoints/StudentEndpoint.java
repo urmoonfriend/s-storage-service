@@ -2,7 +2,6 @@ package kz.company.s_storage_service.endpoints;
 
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
-import jakarta.jws.WebResult;
 import jakarta.jws.WebService;
 import kz.company.s_storage_service.models.dto.ResultMessage;
 import kz.company.s_storage_service.models.dto.StudentDto;
@@ -14,10 +13,8 @@ public interface StudentEndpoint {
     ResultMessage createOrUpdateStudent(@WebParam(name = "studentDto") StudentDto studentDto);
 
     @WebMethod
-    @WebResult(name = "getOneUnitsResponse")
     ResultMessage getAllUnits();
 
     @WebMethod
-    @WebResult(name = "getAllUnitsResponse")
     ResultMessage getOneUnit(@WebParam(name = "recordBookNumber") String recordBookNumber);
 }
