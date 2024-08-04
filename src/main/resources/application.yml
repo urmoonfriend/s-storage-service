@@ -10,6 +10,13 @@ app:
     bucket: common
     streaming:
       default-chunk-size: 3145728
+  streams:
+    environment:
+      host: 127.0.0.1
+      username: guest
+      password: guest
+    strategy:
+      maxConsumer: 5
 spring:
   application:
     name: s-storage-service
@@ -20,6 +27,64 @@ spring:
     username: ${app.postgres.username}
     password: ${app.postgres.password}
     driver-class-name: org.postgresql.Driver
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
+  cloud:
+    function:
+      definition: receiveStorageOneStudentRequest;receiveStorageAllStudentsRequest;
+    stream:
+      rabbit:
+        binder:
+          connection-name-prefix: ${spring.application.name}
+        bindings:
+          receiveStorageOneStudentRequest-in-0:
+            consumer:
+              auto-bind-dlq: true
+              dlqTtl: 30000
+              bindingRoutingKey: STORAGE_ONE_STUDENT.REQUEST
+              consumerTagPrefix: ${spring.application.name}
+          receiveStorageAllStudentsRequest-in-0:
+            consumer:
+              auto-bind-dlq: true
+              dlqTtl: 30000
+              bindingRoutingKey: STORAGE_ALL_STUDENTS.REQUEST
+              consumerTagPrefix: ${spring.application.name}
+          storageOneStudentResponse-out-0:
+            producer:
+              auto-bind-dlq: true
+              dlq-ttl: 30000
+              routingKeyExpression: '''STORAGE_ONE_STUDENT.RESPONSE'''
+          storageAllStudentsResponse-out-0:
+            producer:
+              auto-bind-dlq: true
+              dlq-ttl: 30000
+              routingKeyExpression: '''STORAGE_ALL_STUDENTS.RESPONSE'''
+      bindings:
+        receiveStorageOneStudentRequest-in-0:
+          destination: STORAGE
+          group: STORAGE_ONE_STUDENT.REQUEST
+          consumer:
+            concurrency: ${app.streams.strategy.maxConsumer}
+        receiveStorageAllStudentsRequest-in-0:
+          destination: STORAGE
+          group: STORAGE_ALL_STUDENTS.REQUEST
+          consumer:
+            concurrency: ${app.streams.strategy.maxConsumer}
+        storageOneStudentResponse-out-0:
+          destination: PROXY
+          group: STORAGE_ONE_STUDENT.RESPONSE
+        storageAllStudentsResponse-out-0:
+          destination: PROXY
+          group: STORAGE_ALL_STUDENTS.RESPONSE
+    binders:
+      rabbit-local:
+        type: rabbit
+        environment:
+          spring:
+            rabbitmq:
+              host: ${app.streams.environment.host}
+              username: ${app.streams.environment.username}
+              password: ${app.streams.environment.password}
 minio:
   url: ${app.minio.url}
   access:
