@@ -20,6 +20,7 @@ public class ResultMessage {
     private List<StudentDto> students;
     @XmlElement(name = "error")
     private String error;
+    private String correlationId;
 
     public static ResultMessage success(StudentDto message) {
         return new ResultMessage()
